@@ -1,5 +1,5 @@
-import {cl_loop, cl_rand_ex} from "@cl/math.ts";
-import {cl_vec3} from "@cl/vec3.ts";
+import {loop, rand_ex} from "@cl/math.ts";
+import {vec3} from "@cl/vec3.ts";
 import {vec3_t} from "@cl/type";
 import {COLOR_MODE, UT, gs_object, gui_bool, gui_button, gui_canvas, gui_collapsing_header, gui_color_edit, gui_input_number, gui_render, gui_render_table, gui_select, gui_slider_number, gui_text, gui_window, gui_window_grid, gui_window_layout, text_t, unit} from "@gui/gui.ts";
 import {gl_init, gl_link_program} from "@engine/gl.ts";
@@ -102,7 +102,7 @@ gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);
 const config = {
     width: 512,
     height: 512,
-    background_color: cl_vec3(245, 171, 195),
+    background_color: vec3(245, 171, 195),
     is_running: true,
     iterations: 0,
     ipf: 10,
@@ -133,7 +133,7 @@ function spawn(preset: any): void {
     const colors = [config.background_color];
 
     for (let i = 1; i < preset.colors; i += 1) {
-        colors.push(cl_vec3(cl_rand_ex(0, 256), cl_rand_ex(0, 256), cl_rand_ex(0, 256)));
+        colors.push(vec3(rand_ex(0, 256), rand_ex(0, 256), rand_ex(0, 256)));
     }
 
     for (const state of preset.table) {
@@ -141,7 +141,7 @@ function spawn(preset: any): void {
     }
 
     turmites.push(
-        turmite_new(cl_rand_ex(0, tex.width), cl_rand_ex(0, tex.height), 0, 0, table)
+        turmite_new(rand_ex(0, tex.width), rand_ex(0, tex.height), 0, 0, table)
     );
 }
 
@@ -151,7 +151,7 @@ function generate_random_preset(): any {
 
     for (let i = 0; i < colors; i += 1) {
         table.push([
-            0, i, 0, (i + 1) % colors, cl_rand_ex(-4, 4)
+            0, i, 0, (i + 1) % colors, rand_ex(-4, 4)
         ]);
     }
 
@@ -242,13 +242,13 @@ setInterval(() => {
 
                 if (state) {
                     texture_set_point(tex, ant.x, ant.y, state.next_color);
-                    ant.dir = cl_loop(ant.dir + state.turn, DIRS.length);
+                    ant.dir = loop(ant.dir + state.turn, DIRS.length);
                     ant.state = state.next_state;
                 }
 
                 const dir = DIRS[ant.dir];
-                ant.x = cl_loop(ant.x + dir[0], tex.width);
-                ant.y = cl_loop(ant.y + dir[1], tex.height);
+                ant.x = loop(ant.x + dir[0], tex.width);
+                ant.y = loop(ant.y + dir[1], tex.height);
             }
         }
     }
@@ -270,10 +270,10 @@ function render(): void {
     gl.drawElements(gl.TRIANGLES, index_count, gl.UNSIGNED_INT, 0);
 }
 
-function loop(): void {
+function main_loop(): void {
     render();
 
-    requestAnimationFrame(loop);
+    requestAnimationFrame(main_loop);
 }
 
-loop();
+main_loop();
