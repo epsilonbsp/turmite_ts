@@ -1,4 +1,4 @@
-import {loop, rand_ex} from "@cl/math.ts";
+import {rand_ex, wrap} from "@cl/math.ts";
 import {vec3} from "@cl/vec3.ts";
 import {vec3_t} from "@cl/type";
 import {COLOR_MODE, UT, gs_object, gui_bool, gui_button, gui_canvas, gui_collapsing_header, gui_color_edit, gui_input_number, gui_render, gui_render_table, gui_select, gui_slider_number, gui_text, gui_window, gui_window_grid, gui_window_layout, text_t, unit} from "@gui/gui.ts";
@@ -242,13 +242,13 @@ setInterval(() => {
 
                 if (state) {
                     texture_set_point(tex, ant.x, ant.y, state.next_color);
-                    ant.dir = loop(ant.dir + state.turn, DIRS.length);
+                    ant.dir = wrap(ant.dir + state.turn, DIRS.length);
                     ant.state = state.next_state;
                 }
 
                 const dir = DIRS[ant.dir];
-                ant.x = loop(ant.x + dir[0], tex.width);
-                ant.y = loop(ant.y + dir[1], tex.height);
+                ant.x = wrap(ant.x + dir[0], tex.width);
+                ant.y = wrap(ant.y + dir[1], tex.height);
             }
         }
     }
@@ -270,10 +270,10 @@ function render(): void {
     gl.drawElements(gl.TRIANGLES, index_count, gl.UNSIGNED_INT, 0);
 }
 
-function main_loop(): void {
+function loop(): void {
     render();
 
-    requestAnimationFrame(main_loop);
+    requestAnimationFrame(loop);
 }
 
-main_loop();
+loop();
