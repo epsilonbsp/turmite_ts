@@ -1,6 +1,5 @@
-import {rand_ex, wrap} from "@cl/math.ts";
-import {vec3} from "@cl/vec3.ts";
-import {vec3_t} from "@cl/type";
+import {rand_ex, wrap} from "@cl/math/math.ts";
+import {vec3, vec3_t} from "@cl/math/vec3.ts";
 import {COLOR_MODE, UT, gs_object, gui_bool, gui_button, gui_canvas, gui_collapsing_header, gui_color_edit, gui_input_number, gui_render, gui_render_table, gui_select, gui_slider_number, gui_text, gui_window, gui_window_grid, gui_window_layout, text_t, unit} from "@gui/gui.ts";
 import {gl_init, gl_link_program} from "@engine/gl.ts";
 import {DIRS, turmite_hash_vec, turmite_new, turmite_state, turmite_t} from "@engine/turmite.ts";
